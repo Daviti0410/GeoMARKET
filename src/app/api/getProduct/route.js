@@ -1,23 +1,29 @@
-import pool from "@/app/lib/connection";
 import { NextResponse } from "next/server";
+import pool from "@/app/lib/connection";
 
 export async function GET(req) {
+  const { searchParams } = new URL(req.url);
+  const query = searchParams.get("query") || "";
+  const category = searchParams.get("category") || "";
+
   try {
-    const { searchParams } = new URL(req.url);
-    const query = searchParams.get("query") || "";
+    let sql = `SELECT id, title, description, image, price FROM clothes WHERE title LIKE ?`;
+    let values = [`%${query}%`];
 
-    const [results] = await pool.query(
-      "SELECT id, title, description, image FROM clothes WHERE title LIKE ?",
-      [`%${query}%`]
-    );
+    if (category) {
+      sql += ` AND category = ?`;
+      values.push(category);
+    }
 
-    // Convert buffer to base64
-    const formattedResults = results.map((item) => ({
-      ...item,
-      image: item.image ? item.image.toString("base64") : null,
+    const [results] = await pool.query(sql, values);
+
+    // Convert image buffer to base64 string
+    const products = results.map((result) => ({
+      ...result,
+      image: result.image.toString("base64"),
     }));
 
-    return NextResponse.json(formattedResults, { status: 200 });
+    return NextResponse.json(products);
   } catch (error) {
     console.error(error);
     return NextResponse.json(
