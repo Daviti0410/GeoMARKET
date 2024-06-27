@@ -5,6 +5,9 @@ import { useSearchParams } from "next/navigation";
 import Navbar from "../components/navbar";
 
 export default function Search() {
+  {
+    /* აი ესენი გამოიყენე მაგალითად navbar-თვის return-მდე რაც წერია */
+  }
   const searchParams = useSearchParams();
   const query = searchParams.get("query") || "";
   const [results, setResults] = useState([]);

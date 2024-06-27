@@ -42,6 +42,7 @@ export default function Navbar() {
             <IoSearchSharp />
           </button>
         </form>
+        {/* აი აქ დაჰენდლე ყველაფერი ისე როგორც ვქენი search/page.js -ში და თავისი useEffect -ით და useState-ით გამოიყენე fetch მეთოდი ბაზასტან რექუესთის გასაგზავნათ*/}
         <div className="hidden md:flex justify-center flex-grow space-x-10">
           <Link href="/women" className="hover:text-gray-300">
             WOMEN
