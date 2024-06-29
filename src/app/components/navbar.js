@@ -20,7 +20,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="bg-stone-900 text-white p-4 sticky py-8 top-0 z-50">
+    <nav className="bg-stone-900 text-white p-4 py-8 top-0 z-50">
       <div className="container mx-auto flex justify-between items-center">
         <div className="text-2xl font-bold flex justify-center flex-grow space-x-10">
           <Link href="/" className=" text-white hover:text-slate-300">
