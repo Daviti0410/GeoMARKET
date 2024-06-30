@@ -4,7 +4,7 @@ import Link from "next/link";
 import { IoSearchSharp } from "react-icons/io5";
 import { useRouter } from "next/navigation";
 
-export default function Navbar() {
+export default function Navbar({ handleCategoryClick }) {
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -13,7 +13,6 @@ export default function Navbar() {
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     router.push(`/search?query=${encodeURIComponent(searchQuery)}`);
@@ -42,20 +41,31 @@ export default function Navbar() {
             <IoSearchSharp />
           </button>
         </form>
-        {/* აი აქ დაჰენდლე ყველაფერი ისე როგორც ვქენი search/page.js -ში და თავისი useEffect -ით და useState-ით გამოიყენე fetch მეთოდი ბაზასტან რექუესთის გასაგზავნათ*/}
         <div className="hidden md:flex justify-center flex-grow space-x-10">
-          <Link href="/women" className="hover:text-gray-300">
+          <span
+            onClick={() => handleCategoryClick("WOMEN")}
+            className="hover:text-gray-300 cursor-pointer"
+          >
             WOMEN
-          </Link>
-          <Link href="/men" className="hover:text-gray-300">
+          </span>
+          <span
+            onClick={() => handleCategoryClick("MEN")}
+            className="hover:text-gray-300 cursor-pointer"
+          >
             MEN
-          </Link>
-          <Link href="/kids" className="hover:text-gray-300">
+          </span>
+          <span
+            onClick={() => handleCategoryClick("KIDS")}
+            className="hover:text-gray-300 cursor-pointer"
+          >
             KIDS
-          </Link>
-          <Link href="/sale" className="hover:text-gray-300">
+          </span>
+          <span
+            onClick={() => handleCategoryClick("SALE")}
+            className="hover:text-gray-300 cursor-pointer"
+          >
             SALE
-          </Link>
+          </span>
         </div>
         <div className="md:hidden">
           <button onClick={toggleMenu} className="focus:outline-none">
