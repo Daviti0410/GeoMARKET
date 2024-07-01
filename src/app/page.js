@@ -6,8 +6,8 @@ import { useRouter } from "next/navigation";
 export default function Home() {
   const router = useRouter();
 
-  const handleCategoryClick = (cat) => {
-    router.push(`/search?category=${encodeURIComponent(cat)}`);
+  const handleCategoryClick = (newCategory) => {
+    router.push(`/search?category=${encodeURIComponent(newCategory)}`);
   };
 
   return (

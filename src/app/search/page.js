@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import Navbar from "../components/navbar";
 
 export default function Search() {
@@ -10,6 +10,7 @@ export default function Search() {
   const categoryParam = searchParams.get("category") || "";
   const [results, setResults] = useState([]);
   const [category, setCategory] = useState(categoryParam);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchResults = async () => {
@@ -37,8 +38,13 @@ export default function Search() {
     }
   }, [query, category]);
 
-  const handleCategoryClick = (cat) => {
-    setCategory(cat);
+  const handleCategoryClick = (newCategory) => {
+    setCategory(newCategory);
+    router.push(
+      `/search?query=${encodeURIComponent(query)}&category=${encodeURIComponent(
+        newCategory
+      )}`
+    );
   };
 
   return (
