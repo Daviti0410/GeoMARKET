@@ -97,18 +97,30 @@ export default function Navbar({ handleCategoryClick }) {
       </div>
       {isOpen && (
         <div className="md:hidden flex text-end flex-col">
-          <Link href="/women" className="block p-2 hover:text-gray-300">
+          <span
+            onClick={() => handleCategoryClick("WOMEN")}
+            className="hover:text-gray-300 cursor-pointer"
+          >
             WOMEN
-          </Link>
-          <Link href="/men" passHref className="block p-2 hover:text-gray-300">
+          </span>
+          <span
+            onClick={() => handleCategoryClick("MEN")}
+            className="hover:text-gray-300 cursor-pointer"
+          >
             MEN
-          </Link>
-          <Link href="/kids" className="block p-2 hover:text-gray-300">
+          </span>
+          <span
+            onClick={() => handleCategoryClick("KIDS")}
+            className="hover:text-gray-300 cursor-pointer"
+          >
             KIDS
-          </Link>
-          <Link href="/sale" className="block p-2 hover:text-gray-300">
+          </span>
+          <span
+            onClick={() => handleCategoryClick("SALE")}
+            className="hover:text-gray-300 cursor-pointer"
+          >
             SALE
-          </Link>
+          </span>
         </div>
       )}
     </nav>
