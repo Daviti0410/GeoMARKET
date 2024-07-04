@@ -7,6 +7,7 @@ export default function Upload() {
   const [description, setDescription] = useState("");
   const [file, setFile] = useState(null);
   const [category, setCategory] = useState("");
+  const [filePreview, setFilePreview] = useState(null);
   const [brand, setBrand] = useState("");
   const [type, setType] = useState("");
   const [condition, setCondition] = useState("");
@@ -14,6 +15,15 @@ export default function Upload() {
   const [stock, setStock] = useState("");
   const [price, setPrice] = useState("");
   const [message, setMessage] = useState("");
+
+  const handleFileChange = (e) => {
+    const selectedFile = e.target.files[0];
+    setFile(selectedFile);
+    if (selectedFile) {
+      const fileURL = URL.createObjectURL(selectedFile);
+      setFilePreview(fileURL);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -106,20 +116,28 @@ export default function Upload() {
               />
               <textarea
                 placeholder="Description"
-                className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                className="w-full min-h-32 p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 required
               ></textarea>
             </div>
             <div className="flex-1 min-w-[48%] space-y-10">
-              <div className="w-full h-32 border-2 border-dashed border-gray-300 flex items-center justify-center">
-                <label className="cursor-pointer">
-                  <span className="text-gray-500">Click to upload</span>
+              <div className="w-full h-32 border-4 border-dashed border-gray-300 flex items-center justify-center relative overflow-hidden">
+                <label className="cursor-pointer w-full h-full flex items-center justify-center relative">
+                  {filePreview ? (
+                    <img
+                      src={filePreview}
+                      alt="Selected file"
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <span className="text-gray-500">Click to upload</span>
+                  )}
                   <input
                     type="file"
                     className="hidden"
-                    onChange={(e) => setFile(e.target.files[0])}
+                    onChange={handleFileChange}
                     required
                   />
                 </label>
