@@ -150,7 +150,7 @@ export default function Upload() {
               <input
                 type="number"
                 placeholder="Price"
-                className="input-number w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                className="input-number w-full p-2 border border-inherit rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                 value={price}
                 onChange={(e) => {
                   const newValue = e.target.value;
@@ -164,7 +164,11 @@ export default function Upload() {
                 placeholder="No of Stock"
                 className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                 value={stock}
-                onChange={(e) => setStock(e.target.value)}
+                onChange={(e) => {
+                  const newValue = e.target.value;
+                  setStock(newValue < 0 ? 0 : newValue);
+                }}
+                min={0}
                 required
               />
             </div>

@@ -7,6 +7,13 @@ export async function POST(req) {
     const file = data.get("file");
     const title = data.get("title");
     const description = data.get("description");
+    const category = data.get("category");
+    const brand = data.get("brand");
+    const type = data.get("type");
+    const condition = data.get("condition");
+    const color = data.get("color");
+    const stock = data.get("stock");
+    const price = data.get("price");
 
     if (!file || !title || !description) {
       return NextResponse.json(
@@ -19,10 +26,21 @@ export async function POST(req) {
     const buffer = Buffer.from(bytes);
 
     const query = `
-      INSERT INTO clothes (title, description, image)
-      VALUES (?, ?, ?)
+      INSERT INTO clothes (title, description, image, category, brand, type, condition, color, stock, price)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
-    const values = [title, description, buffer];
+    const values = [
+      title,
+      description,
+      buffer,
+      category,
+      brand,
+      type,
+      condition,
+      color,
+      stock,
+      price,
+    ];
 
     const [result] = await pool.query(query, values);
 
