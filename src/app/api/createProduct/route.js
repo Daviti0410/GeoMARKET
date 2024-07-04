@@ -26,7 +26,7 @@ export async function POST(req) {
     const buffer = Buffer.from(bytes);
 
     const query = `
-      INSERT INTO clothes (title, description, image, category, brand, type, condition, color, stock, price)
+      INSERT INTO clothes (title, description, image, category, brand, type, conditio, color, stock, price)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
     const values = [
