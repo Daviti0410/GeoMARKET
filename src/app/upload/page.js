@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import Navbar from "../components/navbar";
+import Footer from "../components/footer";
 
 export default function Upload() {
   const [title, setTitle] = useState("");
@@ -64,8 +65,8 @@ export default function Upload() {
   return (
     <>
       <Navbar />
-      <div className="flex flex-col items-center justify-center w-full h-auto bg-gray-100">
-        <div className="w-full max-w-7xl min-h-auto p-8 space-y-6 space-x-20 rounded-lg bg-white shadow-lg">
+      <div className="flex flex-col items-center justify-center w-full h-auto bg-white">
+        <div className="w-full max-w-7xl min-h-auto p-8 mt-10 space-y-6 space-x-20 rounded-lg bg-white shadow-lg">
           <h1 className="text-2xl font-bold text-center">Create Listing</h1>
           <form
             className="flex flex-wrap justify-between space-x-6"
@@ -199,6 +200,9 @@ export default function Upload() {
           </form>
           {message && <p className="text-sm text-red-500">{message}</p>}
         </div>
+      </div>
+      <div className="mt-10">
+        <Footer />
       </div>
     </>
   );

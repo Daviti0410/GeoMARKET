@@ -2,6 +2,7 @@
 import Navbar from "./components/navbar";
 import HeroSection from "./components/heroSection";
 import { useRouter } from "next/navigation";
+import Footer from "./components/footer";
 
 export default function Home() {
   const router = useRouter();
@@ -14,6 +15,7 @@ export default function Home() {
     <div>
       <Navbar handleCategoryClick={handleCategoryClick} />
       <HeroSection />
+      <Footer />
     </div>
   );
 }
