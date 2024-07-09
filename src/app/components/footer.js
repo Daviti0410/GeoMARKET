@@ -3,7 +3,7 @@ import { FaTwitter, FaFacebook, FaInstagram } from "react-icons/fa";
 export default function footer() {
   return (
     <>
-      <footer className="bg-slate-950 text-white py-6 min-h-40">
+      <footer className=" bg-slate-950 text-white py-6 min-h-40">
         <div className="container mx-auto flex justify-center space-x-8">
           <a href="#" className="text-white hover:text-blue-300">
             <FaTwitter size={24} />

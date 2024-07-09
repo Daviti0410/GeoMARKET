@@ -2,6 +2,7 @@
 import { useState } from "react";
 import Navbar from "../components/navbar";
 import Footer from "../components/footer";
+import { useRouter } from "next/navigation";
 
 export default function Upload() {
   const [title, setTitle] = useState("");
@@ -62,9 +63,14 @@ export default function Upload() {
     }
   };
 
+  const router = useRouter();
+  const handleCategoryClick = (newCategory) => {
+    router.push(`/search?category=${encodeURIComponent(newCategory)}`);
+  };
+
   return (
     <>
-      <Navbar />
+      <Navbar handleCategoryClick={handleCategoryClick} />
       <div className="flex flex-col items-center justify-center w-full h-auto bg-white">
         <div className="w-full max-w-7xl min-h-auto p-8 mt-10 space-y-6 space-x-20 rounded-lg bg-white shadow-lg">
           <h1 className="text-2xl font-bold text-center">Create Listing</h1>
@@ -130,7 +136,7 @@ export default function Upload() {
                     <img
                       src={filePreview}
                       alt="Selected file"
-                      className="w-full h-full object-cover"
+                      className="w-full h-64 object-cover"
                     />
                   ) : (
                     <span className="text-gray-500">Click to upload</span>
