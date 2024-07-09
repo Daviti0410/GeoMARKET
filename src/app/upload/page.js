@@ -71,8 +71,8 @@ export default function Upload() {
   return (
     <>
       <Navbar handleCategoryClick={handleCategoryClick} />
-      <div className="flex flex-col items-center justify-center w-full h-auto bg-white">
-        <div className="w-full max-w-7xl min-h-auto p-8 mt-10 space-y-6 space-x-20 rounded-lg bg-white shadow-lg">
+      <div className="flex flex-col items-center justify-center w-full h-auto">
+        <div className="w-full max-w-7xl min-h-auto p-8 mt-10 space-y-6 space-x-20 rounded-lg bg-gray-100 shadow-lg">
           <h1 className="text-2xl font-bold text-center">Create Listing</h1>
           <form
             className="flex flex-wrap justify-between space-x-6"
@@ -131,7 +131,7 @@ export default function Upload() {
             </div>
             <div className="flex-1 min-w-[48%] space-y-10">
               <div className="w-full h-32 border-4 border-dashed border-gray-300 flex items-center justify-center relative overflow-hidden">
-                <label className="cursor-pointer w-full h-full flex items-center justify-center relative">
+                <label className="bg-white cursor-pointer w-full h-full flex items-center justify-center relative">
                   {filePreview ? (
                     <img
                       src={filePreview}
