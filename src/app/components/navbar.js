@@ -20,13 +20,13 @@ export default function Navbar({ handleCategoryClick }) {
 
   return (
     <nav className="bg-stone-900 text-white p-4 py-8 top-0 z-50">
-      <div className="container mx-auto flex justify-between items-center">
+      <div className="container mx-auto flex justify-around items-center">
         <div className="text-2xl font-bold flex justify-center flex-grow space-x-10">
           <Link href="/" className=" text-white hover:text-slate-300">
             GeoMARKET
           </Link>
         </div>
-        <form className="flex items-center" onSubmit={handleSubmit}>
+        {/* <form className="flex items-center" onSubmit={handleSubmit}>
           <input
             type="text"
             placeholder="Search"
@@ -40,8 +40,8 @@ export default function Navbar({ handleCategoryClick }) {
           >
             <IoSearchSharp />
           </button>
-        </form>
-        <div className="hidden md:flex justify-center flex-grow space-x-10">
+        </form> */}
+        <div className="hidden md:flex justify-start flex-grow space-x-20">
           <span
             onClick={() => handleCategoryClick("WOMEN")}
             className="hover:text-gray-300 cursor-pointer"
