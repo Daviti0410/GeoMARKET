@@ -1,12 +1,13 @@
-import { FaTwitter, FaFacebook, FaInstagram } from "react-icons/fa";
+import { FaFacebook, FaInstagram } from "react-icons/fa";
+import { BsTwitterX } from "react-icons/bs";
 
 export default function footer() {
   return (
     <>
       <footer className=" bg-slate-950 text-white py-6 min-h-40">
         <div className="container mx-auto flex justify-center space-x-8">
-          <a href="#" className="text-white hover:text-blue-300">
-            <FaTwitter size={24} />
+          <a href="#" className="text-white hover:text-slate-700">
+            <BsTwitterX size={24} />
           </a>
           <a href="#" className="text-white hover:text-blue-500">
             <FaFacebook size={24} />
