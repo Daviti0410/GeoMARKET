@@ -1,6 +1,11 @@
 "use client";
+import { useState } from "react";
 
 export default function signUp() {
+  const [day, setDay] = useState("");
+  const [month, setMonth] = useState("");
+  const [year, setYear] = useState("");
+
   const days = Array.from({ length: 31 }, (_, i) => ++i);
   const years = Array.from({ length: 2024 - 1970 + 1 }, (_, i) => 1970 + i);
   const months = [
@@ -18,10 +23,34 @@ export default function signUp() {
     "December",
   ];
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append("day", day);
+    formData.append("month", month);
+
+    try {
+      const res = await fetch("/api/createUser", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        setMessage("Upload successful!");
+      } else {
+        setMessage("Upload faild:" + data.message);
+      }
+    } catch (error) {
+      setMessage("Upload failed: " + error.message);
+    }
+  };
+
   return (
     <>
       <div className="max-w-xl mx-auto mt-10 bg-gray-100 p-8 rounded-lg shadow-md">
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className=" flex justify-center mb-5 text-gray-700 font-bold text-4xl">
             Registration
           </div>
@@ -50,7 +79,11 @@ export default function signUp() {
               Birth Date
             </label>
             <div className="flex space-x-2">
-              <select className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
+              <select
+                onChange={(e) => setDay(e.target.value)}
+                value={day}
+                className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+              >
                 <option>day</option>
                 {days.map((day) => (
                   <option key={day} value={day}>
@@ -59,7 +92,12 @@ export default function signUp() {
                 ))}
               </select>
               <select className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
-                <option value="">Month</option>
+                <option
+                  onChange={(e) => setMonth(e.target.value)}
+                  value={month}
+                >
+                  Month
+                </option>
                 {months.map((month, index) => (
                   <option key={index} value={month}>
                     {month}
