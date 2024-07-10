@@ -1,3 +1,5 @@
+"use client";
+
 export default function signUp() {
   const days = Array.from({ length: 31 }, (_, i) => ++i);
   const years = Array.from({ length: 2024 - 1970 + 1 }, (_, i) => 1970 + i);
