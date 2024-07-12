@@ -1,13 +1,21 @@
 "use client";
-import { useState } from "react";
+import { use, useState } from "react";
 
 export default function signUp() {
   const [day, setDay] = useState("");
   const [month, setMonth] = useState("");
   const [year, setYear] = useState("");
+  const [firstname, setFirstName] = useState("");
+  const [lastname, setLastname] = useState("");
+  const [phonenumber, setPhonenumber] = useState("");
+  const [email, setEmail] = useState("");
+  const [street, setStreet] = useState("");
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("");
+  const [postal, setPostal] = useState("");
 
   const days = Array.from({ length: 31 }, (_, i) => ++i);
-  const years = Array.from({ length: 2024 - 1970 + 1 }, (_, i) => 1970 + i);
+  const years = Array.from({ length: 2024 - 1950 + 1 }, (_, i) => 1950 + i);
   const months = [
     "January",
     "February",
@@ -29,6 +37,16 @@ export default function signUp() {
     const formData = new FormData();
     formData.append("day", day);
     formData.append("month", month);
+    formData.append("year", year);
+    formData.append("firstname", firstname);
+    formData.append("lastname", lastname);
+    formData.append("phonenumber", phonenumber);
+    formData.append("email", email);
+    formData.append("street", street);
+    formData.append("city", city);
+    formData.append("state", state);
+    formData.append("postal", postal);
+
 
     try {
       const res = await fetch("/api/createUser", {
@@ -59,6 +77,8 @@ export default function signUp() {
               First Name
             </label>
             <input
+              onChange={(e) => setFirstName(e.target.value)}
+              value={firstname}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               type="text"
               placeholder="First Name"
@@ -69,6 +89,8 @@ export default function signUp() {
               Last Name
             </label>
             <input
+              onChange={(e) => setLastname(e.target.value)}
+              value={lastname}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               type="text"
               placeholder="Last Name"
@@ -91,7 +113,11 @@ export default function signUp() {
                   </option>
                 ))}
               </select>
-              <select className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
+              <select 
+                  onChange={(e) => setMonth(e.target.value)}
+                  value={month}
+                  className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+                >
                 <option
                   onChange={(e) => setMonth(e.target.value)}
                   value={month}
@@ -104,7 +130,11 @@ export default function signUp() {
                   </option>
                 ))}
               </select>
-              <select className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
+              <select 
+                  onChange={(e) => setYear(e.target.value)}
+                  value={year}
+                  className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+              >
                 <option value="">Year</option>
                 {years.map((year) => (
                   <option key={year} value={year}>
@@ -119,6 +149,8 @@ export default function signUp() {
               Phone Number
             </label>
             <input
+              onChange={(e) => setPhonenumber(e.target.value)}
+              value={phonenumber}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               type="text"
               placeholder="(000) 000-0000"
@@ -129,6 +161,8 @@ export default function signUp() {
               E-mail
             </label>
             <input
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               type="email"
               placeholder="example@example.com"
@@ -139,21 +173,29 @@ export default function signUp() {
               Address
             </label>
             <input
+              onChange={(e) => setStreet(e.target.value)}
+              value={street}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-2"
               type="text"
               placeholder="Street Address"
             />
             <input
+              onChange={(e) => setCity(e.target.value)}
+              value={city}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-2"
               type="text"
               placeholder="City"
             />
             <input
+              onChange={(e) => setState(e.target.value)}
+              value={state}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-2"
               type="text"
               placeholder="State / Province"
             />
             <input
+              onChange={(e) => setPostal(e.target.value)}
+              value={postal}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-2"
               type="text"
               placeholder="Postal / Zip Code"
