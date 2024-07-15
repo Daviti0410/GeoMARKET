@@ -2,17 +2,17 @@
 import { use, useState } from "react";
 
 export default function signUp() {
-  const [day, setDay] = useState("");
+  const [day, setDay] = useState(0);
   const [month, setMonth] = useState("");
-  const [year, setYear] = useState("");
+  const [year, setYear] = useState(0);
   const [firstname, setFirstName] = useState("");
   const [lastname, setLastname] = useState("");
-  const [phonenumber, setPhonenumber] = useState("");
+  const [phonenumber, setPhonenumber] = useState(0);
   const [email, setEmail] = useState("");
   const [street, setStreet] = useState("");
   const [city, setCity] = useState("");
-  const [state, setState] = useState("");
-  const [postal, setPostal] = useState("");
+  const [region, setRegion] = useState("");
+  const [postal, setPostal] = useState(0);
 
   const days = Array.from({ length: 31 }, (_, i) => ++i);
   const years = Array.from({ length: 2024 - 1950 + 1 }, (_, i) => 1950 + i);
@@ -44,7 +44,7 @@ export default function signUp() {
     formData.append("email", email);
     formData.append("street", street);
     formData.append("city", city);
-    formData.append("state", state);
+    formData.append("region", region);
     formData.append("postal", postal);
 
 
@@ -187,7 +187,7 @@ export default function signUp() {
               placeholder="City"
             />
             <input
-              onChange={(e) => setState(e.target.value)}
+              onChange={(e) => setRegion(e.target.value)}
               value={state}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-2"
               type="text"
@@ -210,7 +210,7 @@ export default function signUp() {
           <div className="flex items-center justify-between">
             <button
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-              type="button"
+              type="submit"
             >
               Submit
             </button>
