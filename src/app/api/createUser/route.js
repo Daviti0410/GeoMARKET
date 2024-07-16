@@ -1,5 +1,8 @@
 import pool from "@/app/lib/connection";
 import { NextResponse } from "next/server";
+import bcrypt from "bcrypt";
+
+const SALT_ROUNDS = 10;
 
 export async function POST(req) {
   try {
@@ -37,6 +40,8 @@ export async function POST(req) {
       );
     }
 
+    const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
+
     const query = `
     INSERT INTO users (firstName, lastName, email, city, region, street, month, day, year, postal, phoneNumber, password, country)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
@@ -54,7 +59,7 @@ export async function POST(req) {
       year,
       postal,
       phoneNumber,
-      password,
+      hashedPassword,
       country,
     ];
     const [result] = await pool.query(query, values);
