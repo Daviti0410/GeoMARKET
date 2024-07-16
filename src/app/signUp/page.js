@@ -2,9 +2,12 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
 import { registrationSchema } from "../lib/validation";
+import { useRouter } from "next/navigation";
 
 const SignUp = () => {
   const [message, setMessage] = useState("");
+
+  const router = useRouter();
 
   const formik = useFormik({
     initialValues: {
@@ -37,6 +40,7 @@ const SignUp = () => {
         const data = await res.json();
         if (data.success) {
           setMessage("Upload successful!");
+          router.push("/signIn");
         } else {
           setMessage("Upload failed: " + data.message);
         }
@@ -311,7 +315,7 @@ const SignUp = () => {
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             type="submit"
           >
-            Submit
+            Sign Up
           </button>
         </div>
       </form>
