@@ -17,6 +17,7 @@ export async function POST(req) {
       city,
       region,
       postal,
+      country,
     } = data;
 
     if (!day || !month || !year || !firstName || !lastName) {
@@ -26,8 +27,18 @@ export async function POST(req) {
       );
     }
 
+    const emailCheckQuery = "SELECT * FROM users WHERE email = ?";
+    const [existingUser] = await pool.query(emailCheckQuery, [email]);
+
+    if (existingUser.length > 0) {
+      return NextResponse.json(
+        { success: false, message: "Email is already in use" },
+        { status: 409 }
+      );
+    }
+
     const query = `
-    INSERT INTO users (firstName, lastName, email, city, region, street, month, day, year, postal, phoneNumber, password)
+    INSERT INTO users (firstName, lastName, email, city, region, street, month, day, year, postal, phoneNumber, password, country)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
@@ -44,6 +55,7 @@ export async function POST(req) {
       postal,
       phoneNumber,
       password,
+      country,
     ];
     const [result] = await pool.query(query, values);
 
