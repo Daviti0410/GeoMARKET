@@ -17,7 +17,6 @@ export async function GET(req) {
 
     const [results] = await pool.query(sql, values);
 
-    // Convert image buffer to base64 string
     const products = results.map((result) => ({
       ...result,
       image: result.image.toString("base64"),
