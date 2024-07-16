@@ -3,19 +3,21 @@ import { NextResponse } from "next/server";
 
 export async function POST(req) {
   try {
-    const data = await req.formData();
-    const day = data.get("day");
-    const month = data.get("month");
-    const year = data.get("year");
-    const firstName = data.get("firstName");
-    const lastName = data.get("lastName");
-    const password = data.get("password");
-    const phoneNumber = data.get("phoneNumber");
-    const email = data.get("email");
-    const street = data.get("street");
-    const city = data.get("city");
-    const region = data.get("region");
-    const postal = data.get("postal");
+    const data = await req.json();
+    const {
+      day,
+      month,
+      year,
+      firstName,
+      lastName,
+      password,
+      phoneNumber,
+      email,
+      street,
+      city,
+      region,
+      postal,
+    } = data;
 
     if (!day || !month || !year || !firstName || !lastName) {
       return NextResponse.json(

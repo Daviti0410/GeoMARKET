@@ -3,8 +3,6 @@ import React, { useState } from "react";
 import { useFormik } from "formik";
 import { registrationSchema } from "../lib/validation";
 
-const emailDomainRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
 const SignUp = () => {
   const [message, setMessage] = useState("");
 
@@ -16,7 +14,7 @@ const SignUp = () => {
       confirmPassword: "",
       day: 0,
       month: "",
-      year: "",
+      year: 0,
       phoneNumber: 0,
       email: "",
       street: "",
@@ -27,15 +25,13 @@ const SignUp = () => {
     },
     validationSchema: registrationSchema,
     onSubmit: async (values) => {
-      const formData = new FormData();
-      Object.keys(values).forEach((key) => {
-        formData.append(key, values[key]);
-      });
-
       try {
         const res = await fetch("/api/createUser", {
           method: "POST",
-          body: formData,
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(values),
         });
 
         const data = await res.json();
