@@ -15,7 +15,7 @@ export async function POST(req) {
     const stock = data.get("stock");
     const price = data.get("price");
 
-    if (!file || !title || !description) {
+    if (!file || !title || !description || !category || !brand || !type || !condition || !color || !stock || !price) {
       return NextResponse.json(
         { success: false, message: "Missing required fields" },
         { status: 400 }

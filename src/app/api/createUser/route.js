@@ -23,7 +23,7 @@ export async function POST(req) {
       country,
     } = data;
 
-    if (!day || !month || !year || !firstName || !lastName) {
+    if (!day || !month || !year || !firstName || !lastName || !password || !phoneNumber || !email || !street || !city || !region || !postal || !country) {
       return NextResponse.json(
         { success: false, message: "Missing required fields" },
         { status: 400 }
