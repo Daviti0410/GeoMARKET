@@ -65,9 +65,4 @@ export const registrationSchema = yup.object().shape({
 export const loginSchema = yup.object().shape({
   email: yup.string().required("email is required"),
   password: yup.string().required("Password is required"),
-  phoneNumber: yup
-    .number()
-    .required("Phone Number is required")
-    .positive("Phone Number is required")
-    .integer("Phone Number must be an number"),
 });
