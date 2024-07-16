@@ -16,3 +16,38 @@ html, body {
   -webkit-appearance: none;
   margin: 0;
 }
+
+
+.dropdown-menu {
+  position: absolute;
+  width: auto;
+  height: screen;
+  background-color: black;
+  color: white;
+  z-index: 50;
+  transform-origin: top;
+  animation: dropdown 0.3s ease-out forwards;
+  opacity: 0;
+  transform: scaleY(0);
+}
+
+@keyframes dropdown {
+  from {
+    transform: scaleY(0);
+    opacity: 0;
+  }
+  to {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+
+.dropdown-item {
+  padding: 8px;
+  text-align: start;
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  background-color: gray;
+}

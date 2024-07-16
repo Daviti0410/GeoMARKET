@@ -1,18 +1,54 @@
 "use client";
-import { use, useState } from "react";
+import React, { useState } from "react";
+import { useFormik } from "formik";
+import { registrationSchema } from "../lib/validation";
 
-export default function signUp() {
-  const [day, setDay] = useState(0);
-  const [month, setMonth] = useState("");
-  const [year, setYear] = useState(0);
-  const [firstname, setFirstName] = useState("");
-  const [lastname, setLastname] = useState("");
-  const [phonenumber, setPhonenumber] = useState(0);
-  const [email, setEmail] = useState("");
-  const [street, setStreet] = useState("");
-  const [city, setCity] = useState("");
-  const [region, setRegion] = useState("");
-  const [postal, setPostal] = useState(0);
+const emailDomainRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+const SignUp = () => {
+  const [message, setMessage] = useState("");
+
+  const formik = useFormik({
+    initialValues: {
+      firstName: "",
+      lastName: "",
+      password: "",
+      confirmPassword: "",
+      day: 0,
+      month: "",
+      year: "",
+      phoneNumber: 0,
+      email: "",
+      street: "",
+      city: "",
+      region: "",
+      postal: 0,
+      country: "",
+    },
+    validationSchema: registrationSchema,
+    onSubmit: async (values) => {
+      const formData = new FormData();
+      Object.keys(values).forEach((key) => {
+        formData.append(key, values[key]);
+      });
+
+      try {
+        const res = await fetch("/api/createUser", {
+          method: "POST",
+          body: formData,
+        });
+
+        const data = await res.json();
+        if (data.success) {
+          setMessage("Upload successful!");
+        } else {
+          setMessage("Upload failed: " + data.message);
+        }
+      } catch (error) {
+        setMessage("Upload failed: " + error.message);
+      }
+    },
+  });
 
   const days = Array.from({ length: 31 }, (_, i) => ++i);
   const years = Array.from({ length: 2024 - 1950 + 1 }, (_, i) => 1950 + i);
@@ -30,193 +66,262 @@ export default function signUp() {
     "November",
     "December",
   ];
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    const formData = new FormData();
-    formData.append("day", day);
-    formData.append("month", month);
-    formData.append("year", year);
-    formData.append("firstname", firstname);
-    formData.append("lastname", lastname);
-    formData.append("phonenumber", phonenumber);
-    formData.append("email", email);
-    formData.append("street", street);
-    formData.append("city", city);
-    formData.append("region", region);
-    formData.append("postal", postal);
-
-
-    try {
-      const res = await fetch("/api/createUser", {
-        method: "POST",
-        body: formData,
-      });
-
-      const data = await res.json();
-      if (data.success) {
-        setMessage("Upload successful!");
-      } else {
-        setMessage("Upload faild:" + data.message);
-      }
-    } catch (error) {
-      setMessage("Upload failed: " + error.message);
-    }
-  };
+  const countries = ["Georgia"];
 
   return (
-    <>
-      <div className="max-w-xl mx-auto mt-10 bg-gray-100 p-8 rounded-lg shadow-md">
-        <form onSubmit={handleSubmit}>
-          <div className=" flex justify-center mb-5 text-gray-700 font-bold text-4xl">
-            Registration
-          </div>
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2">
-              First Name
-            </label>
-            <input
-              onChange={(e) => setFirstName(e.target.value)}
-              value={firstname}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              type="text"
-              placeholder="First Name"
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2">
-              Last Name
-            </label>
-            <input
-              onChange={(e) => setLastname(e.target.value)}
-              value={lastname}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              type="text"
-              placeholder="Last Name"
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2">
-              Birth Date
-            </label>
-            <div className="flex space-x-2">
-              <select
-                onChange={(e) => setDay(e.target.value)}
-                value={day}
-                className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
-              >
-                <option>day</option>
-                {days.map((day) => (
-                  <option key={day} value={day}>
-                    {day}
-                  </option>
-                ))}
-              </select>
-              <select 
-                  onChange={(e) => setMonth(e.target.value)}
-                  value={month}
-                  className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
-                >
-                <option
-                  onChange={(e) => setMonth(e.target.value)}
-                  value={month}
-                >
-                  Month
-                </option>
-                {months.map((month, index) => (
-                  <option key={index} value={month}>
-                    {month}
-                  </option>
-                ))}
-              </select>
-              <select 
-                  onChange={(e) => setYear(e.target.value)}
-                  value={year}
-                  className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
-              >
-                <option value="">Year</option>
-                {years.map((year) => (
-                  <option key={year} value={year}>
-                    {year}
-                  </option>
-                ))}
-              </select>
+    <div className="max-w-xl mx-auto mt-10 bg-gray-100 p-8 rounded-lg shadow-md">
+      <form onSubmit={formik.handleSubmit}>
+        <div className="flex justify-center mb-5 text-gray-700 font-bold text-4xl">
+          Registration
+        </div>
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            First Name
+          </label>
+          <input
+            name="firstName"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.firstName}
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            type="text"
+            placeholder="First Name"
+          />
+          {formik.touched.firstName && formik.errors.firstName ? (
+            <div className="text-red-500 text-xs">
+              {formik.errors.firstName}
             </div>
-          </div>
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2">
-              Phone Number
-            </label>
-            <input
-              onChange={(e) => setPhonenumber(e.target.value)}
-              value={phonenumber}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              type="text"
-              placeholder="(000) 000-0000"
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2">
-              E-mail
-            </label>
-            <input
-              onChange={(e) => setEmail(e.target.value)}
-              value={email}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              type="email"
-              placeholder="example@example.com"
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2">
-              Address
-            </label>
-            <input
-              onChange={(e) => setStreet(e.target.value)}
-              value={street}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-2"
-              type="text"
-              placeholder="Street Address"
-            />
-            <input
-              onChange={(e) => setCity(e.target.value)}
-              value={city}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-2"
-              type="text"
-              placeholder="City"
-            />
-            <input
-              onChange={(e) => setRegion(e.target.value)}
-              value={state}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-2"
-              type="text"
-              placeholder="State / Province"
-            />
-            <input
-              onChange={(e) => setPostal(e.target.value)}
-              value={postal}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-2"
-              type="text"
-              placeholder="Postal / Zip Code"
-            />
-            <select className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
-              <option>Country</option>
-              <option>Georgia</option>
-              <option>USA</option>
-              <option>Japan</option>
+          ) : null}
+        </div>
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            Last Name
+          </label>
+          <input
+            name="lastName"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.lastName}
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            type="text"
+            placeholder="Last Name"
+          />
+          {formik.touched.lastName && formik.errors.lastName ? (
+            <div className="text-red-500 text-xs">{formik.errors.lastName}</div>
+          ) : null}
+        </div>
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            Password
+          </label>
+          <input
+            name="password"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.password}
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            type="password"
+            placeholder="Password"
+          />
+          {formik.touched.password && formik.errors.password ? (
+            <div className="text-red-500 text-xs">{formik.errors.password}</div>
+          ) : null}
+        </div>
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            Confirm Password
+          </label>
+          <input
+            name="confirmPassword"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.confirmPassword}
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            type="password"
+            placeholder="Confirm Password"
+          />
+          {formik.touched.confirmPassword && formik.errors.confirmPassword ? (
+            <div className="text-red-500 text-xs">
+              {formik.errors.confirmPassword}
+            </div>
+          ) : null}
+        </div>
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            Birth Date
+          </label>
+          <div className="flex space-x-2">
+            <select
+              name="day"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.day}
+              className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+            >
+              <option value="">Day</option>
+              {days.map((day) => (
+                <option key={day} value={day}>
+                  {day}
+                </option>
+              ))}
+            </select>
+            <select
+              name="month"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.month}
+              className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+            >
+              <option value="">Month</option>
+              {months.map((month, index) => (
+                <option key={index} value={month}>
+                  {month}
+                </option>
+              ))}
+            </select>
+            <select
+              name="year"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.year}
+              className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+            >
+              <option value="">Year</option>
+              {years.map((year) => (
+                <option key={year} value={year}>
+                  {year}
+                </option>
+              ))}
             </select>
           </div>
-          <div className="flex items-center justify-between">
-            <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-              type="submit"
-            >
-              Submit
-            </button>
-          </div>
-        </form>
-      </div>
-    </>
+          {formik.touched.day && formik.errors.day ? (
+            <div className="text-red-500 text-xs">{formik.errors.day}</div>
+          ) : null}
+          {formik.touched.month && formik.errors.month ? (
+            <div className="text-red-500 text-xs">{formik.errors.month}</div>
+          ) : null}
+          {formik.touched.year && formik.errors.year ? (
+            <div className="text-red-500 text-xs">{formik.errors.year}</div>
+          ) : null}
+        </div>
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            Phone Number
+          </label>
+          <input
+            name="phoneNumber"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.phoneNumber}
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            type="text"
+            placeholder="(000) 000-0000"
+          />
+          {formik.touched.phoneNumber && formik.errors.phoneNumber ? (
+            <div className="text-red-500 text-xs">
+              {formik.errors.phoneNumber}
+            </div>
+          ) : null}
+        </div>
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            E-mail
+          </label>
+          <input
+            name="email"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.email}
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            type="email"
+            placeholder="example@example.com"
+          />
+          {formik.touched.email && formik.errors.email ? (
+            <div className="text-red-500 text-xs">{formik.errors.email}</div>
+          ) : null}
+        </div>
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            Address
+          </label>
+          <input
+            name="street"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.street}
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-2"
+            type="text"
+            placeholder="Street Address"
+          />
+          {formik.touched.street && formik.errors.street ? (
+            <div className="text-red-500 text-xs">{formik.errors.street}</div>
+          ) : null}
+          <input
+            name="city"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.city}
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-2"
+            type="text"
+            placeholder="City"
+          />
+          {formik.touched.city && formik.errors.city ? (
+            <div className="text-red-500 text-xs">{formik.errors.city}</div>
+          ) : null}
+          <input
+            name="region"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.region}
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-2"
+            type="text"
+            placeholder="Region / Province"
+          />
+          {formik.touched.region && formik.errors.region ? (
+            <div className="text-red-500 text-xs">{formik.errors.region}</div>
+          ) : null}
+          <input
+            name="postal"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.postal}
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-2"
+            type="text"
+            placeholder="Postal / Zip Code"
+          />
+          {formik.touched.postal && formik.errors.postal ? (
+            <div className="text-red-500 text-xs">{formik.errors.postal}</div>
+          ) : null}
+          <select
+            name="country"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.country}
+            className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+          >
+            <option value="">Country</option>
+            {countries.map((country, index) => (
+              <option key={index} value={country}>
+                {country}
+              </option>
+            ))}
+          </select>
+          {formik.touched.country && formik.errors.country ? (
+            <div className="text-red-500 text-xs">{formik.errors.country}</div>
+          ) : null}
+        </div>
+        <div className="flex items-center justify-between">
+          <button
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            type="submit"
+          >
+            Submit
+          </button>
+        </div>
+      </form>
+      {message && <p className="mt-4 text-center">{message}</p>}
+    </div>
   );
-}
+};
+
+export default SignUp;
