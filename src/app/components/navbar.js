@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { IoSearchSharp } from "react-icons/io5";
 import { useRouter } from "next/navigation";
+import { CgProfile } from "react-icons/cg";
 
 export default function Navbar({ handleCategoryClick }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -39,15 +40,15 @@ export default function Navbar({ handleCategoryClick }) {
   }, []);
 
   return (
-    <nav className="bg-stone-900 text-white p-4 py-8 top-0 z-50 relative">
-      <div className="container mx-auto flex justify-around items-center">
-        <div className="text-2xl font-bold flex justify-center flex-grow space-x-10">
+    <nav className="bg-stone-900 text-white p-4 py-8 top-0 z-50 relative flex">
+      <div className="container mx-auto flex justify-evenly items-center">
+        <div className="text-2xl font-bold">
           <Link href="/" className="text-white hover:text-slate-300">
             GeoMARKET
           </Link>
         </div>
 
-        <div className="hidden md:flex justify-start flex-grow space-x-20">
+        <div className="hidden md:flex justify-center space-x-20">
           {["WOMEN", "MEN", "KIDS", "SALE"].map((category) => (
             <div className="relative" key={category} ref={dropdownRef}>
               <span
@@ -70,6 +71,8 @@ export default function Navbar({ handleCategoryClick }) {
             </div>
           ))}
         </div>
+
+ 
 
         <div className="md:hidden">
           <button onClick={toggleMenu} className="focus:outline-none">
@@ -99,6 +102,12 @@ export default function Navbar({ handleCategoryClick }) {
           </button>
         </div>
       </div>
+
+      <div className="text-end">
+          <a href="signUp" className="hover:text-slate-300">
+            <CgProfile size={24} />
+          </a>
+        </div>
 
       {isOpen && (
         <div className="md:hidden flex text-end flex-col">
@@ -131,6 +140,7 @@ export default function Navbar({ handleCategoryClick }) {
     </nav>
   );
 }
+
 
 {
   /* <form className="flex items-center" onSubmit={handleSubmit}>
