@@ -48,7 +48,7 @@ export default function Navbar({ handleCategoryClick }) {
           </Link>
         </div>
 
-        <div className="hidden md:flex justify-center space-x-20">
+        <div className="hidden md:flex justify-center space-x-20 mr-80">
           {["WOMEN", "MEN", "KIDS", "SALE"].map((category) => (
             <div className="relative" key={category} ref={dropdownRef}>
               <span
@@ -71,8 +71,6 @@ export default function Navbar({ handleCategoryClick }) {
             </div>
           ))}
         </div>
-
- 
 
         <div className="md:hidden">
           <button onClick={toggleMenu} className="focus:outline-none">
@@ -104,10 +102,10 @@ export default function Navbar({ handleCategoryClick }) {
       </div>
 
       <div className="text-end">
-          <a href="signUp" className="hover:text-slate-300">
-            <CgProfile size={24} />
-          </a>
-        </div>
+        <a href="signUp" className="hover:text-slate-300">
+          <CgProfile size={24} />
+        </a>
+      </div>
 
       {isOpen && (
         <div className="md:hidden flex text-end flex-col">
@@ -140,7 +138,6 @@ export default function Navbar({ handleCategoryClick }) {
     </nav>
   );
 }
-
 
 {
   /* <form className="flex items-center" onSubmit={handleSubmit}>
