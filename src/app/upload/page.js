@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "../components/navbar";
 import Footer from "../components/footer";
 import { useRouter } from "next/navigation";
@@ -17,6 +17,27 @@ export default function Upload() {
   const [stock, setStock] = useState("");
   const [price, setPrice] = useState("");
   const [message, setMessage] = useState("");
+
+  const router = useRouter();
+
+  useEffect(() => {
+    async function fetchProtectedData() {
+      const response = await fetch(`api/protectToken`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        router.push("/signIn");
+        return;
+      }
+    }
+
+    fetchProtectedData();
+  }, []);
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
@@ -63,7 +84,6 @@ export default function Upload() {
     }
   };
 
-  const router = useRouter();
   const handleCategoryClick = (newCategory) => {
     router.push(`/search?category=${encodeURIComponent(newCategory)}`);
   };

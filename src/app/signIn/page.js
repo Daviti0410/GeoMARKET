@@ -1,12 +1,10 @@
 "use client";
 
-import { useState } from "react";
 import { useFormik } from "formik";
 import { loginSchema } from "../lib/validation";
 import { useRouter } from "next/navigation";
 
 const signIn = () => {
-  const [message, setMessage] = useState("");
   const router = useRouter();
 
   const formik = useFormik({
@@ -27,8 +25,7 @@ const signIn = () => {
 
         const data = await res.json();
         if (data.success) {
-          setMessage("Log IN Successful");
-          router.push("/");
+          router.push("/upload");
         } else {
           setMessage("Log In Failed: " + data.message);
         }
