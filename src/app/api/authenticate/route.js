@@ -1,6 +1,10 @@
 import pool from "@/app/lib/connection";
 import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import cookie from "cookie";
+
+const JWT_SECRET = process.env.JWT_SECRET;
 
 export async function POST(req) {
   try {
@@ -34,10 +38,30 @@ export async function POST(req) {
         { status: 401 }
       );
     }
+    const payload = {
+      userId: user.id,
+      email: user.email,
+    };
 
-    return NextResponse.json({ success: true, id: user.id }, { status: 200 });
+    const token = jwt.sign(payload, JWT_SECRET, { expiresIn: "1h" });
+
+    const response = NextResponse.json(
+      { success: true, user },
+      { status: 200 }
+    );
+
+    response.headers.set(
+      "Set-Cookie",
+      cookie.serialize("token", token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV !== "development",
+        maxAge: 3600,
+        path: "/",
+      })
+    );
+
+    return response;
   } catch (error) {
-    console.error(error);
     return NextResponse.json(
       { success: false, message: error.message },
       { status: 500 }
