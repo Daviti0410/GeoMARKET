@@ -1,25 +1,15 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { IoSearchSharp } from "react-icons/io5";
-import { useRouter } from "next/navigation";
 import { CgProfile } from "react-icons/cg";
 
 export default function Navbar({ handleCategoryClick }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
   const [dropdown, setDropdown] = useState(null);
-
-  const router = useRouter();
   const dropdownRef = useRef(null);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    router.push(`/search?query=${encodeURIComponent(searchQuery)}`);
   };
 
   const handleDropdownToggle = (category) => {
@@ -102,7 +92,7 @@ export default function Navbar({ handleCategoryClick }) {
       </div>
 
       <div className="text-end">
-        <a href="signUp" className="hover:text-slate-300">
+        <a href="signIn" className="hover:text-slate-300">
           <CgProfile size={24} />
         </a>
       </div>
@@ -137,22 +127,4 @@ export default function Navbar({ handleCategoryClick }) {
       )}
     </nav>
   );
-}
-
-{
-  /* <form className="flex items-center" onSubmit={handleSubmit}>
-          <input
-            type="text"
-            placeholder="Search"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="px-5 py-2 rounded-l-md bg-white-800 text-black focus:outline-none focus:ring-2 focus:ring-stone-900 w-64"
-          />
-          <button
-            type="submit"
-            className="px-4 py-3 rounded-r-md bg-yellow-600 text-white hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-gray-600"
-          >
-            <IoSearchSharp />
-          </button>
-        </form> */
 }

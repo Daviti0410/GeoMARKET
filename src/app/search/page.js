@@ -5,6 +5,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import Navbar from "../components/navbar";
 import SlideBar from "../components/slideBar";
 import Footer from "../components/footer";
+import SearchBar from "../components/searchBar";
 
 export default function Search() {
   const searchParams = useSearchParams();
@@ -55,6 +56,7 @@ export default function Search() {
       <div className="flex min-h-screen">
         <SlideBar handleCategoryClick={handleCategoryClick} />
         <div className="w-3/4 p-4">
+          <SearchBar />
           <h1 className="text-2xl font-bold mb-4">
             Search Results for "{query || category}"
           </h1>
