@@ -11,8 +11,10 @@ export default function Search() {
   const searchParams = useSearchParams();
   const query = searchParams.get("query") || "";
   const categoryParam = searchParams.get("category") || "";
+  const subCategoryParam = searchParams.get("subCategory" || "");
   const [results, setResults] = useState([]);
   const [category, setCategory] = useState(categoryParam);
+  const [subCategory, setSubCategory] = useState(subCategoryParam);
   const router = useRouter();
 
   useEffect(() => {
@@ -21,7 +23,9 @@ export default function Search() {
         const res = await fetch(
           `/api/getProduct?query=${encodeURIComponent(
             query
-          )}&category=${encodeURIComponent(category)}`
+          )}&category=${encodeURIComponent(
+            category
+          )}&subCategory=${subCategory}`
         );
 
         if (!res.ok) {
@@ -36,18 +40,20 @@ export default function Search() {
       }
     };
 
-    if (query || category) {
+    if (query || category || subCategory) {
       fetchResults();
     }
-  }, [query, category]);
+  }, [query, category, subCategory]);
 
-  const handleCategoryClick = (newCategory) => {
+  const handleCategoryClick = (newCategory, newSubCategory) => {
     setCategory(newCategory);
+    setSubCategory(newSubCategory);
     router.push(
       `/search?query=${encodeURIComponent(query)}&category=${encodeURIComponent(
         newCategory
-      )}`
+      )}&subCategory=${encodeURIComponent(newSubCategory)}`
     );
+    console.log(setSubCategory);
   };
 
   return (
@@ -58,7 +64,7 @@ export default function Search() {
         <div className="w-3/4 p-4">
           <SearchBar />
           <h1 className="text-2xl font-bold mb-4">
-            Search Results for "{query || category}"
+            Search Results for "{query || category || subCategory}"
           </h1>
           <div className="flex flex-wrap -mx-4">
             {results.map((result) => (
