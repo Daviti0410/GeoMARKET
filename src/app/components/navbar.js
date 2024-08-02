@@ -13,6 +13,7 @@ export default function Navbar() {
   const toggleWomenMenu = () => {
     setIsWomenOpen((prev) => {
       const newState = !prev;
+      const prevCount = 1;
       setClickCount((prevCount) => prevCount + 1);
       if (newState) {
         setIsMenOpen(false);
@@ -24,6 +25,7 @@ export default function Navbar() {
   const toggleMenMenu = () => {
     setIsMenOpen((prev) => {
       const newState = !prev;
+      const prevCount = 1;
       setClickCount((prevCount) => prevCount + 1);
       if (newState) {
         setIsWomenOpen(false);
@@ -42,7 +44,7 @@ export default function Navbar() {
   useEffect(() => {
     const timer = setTimeout(() => {
       document.addEventListener("mousedown", handleClickOutside);
-    }, 1000);
+    }, 1500);
 
     return () => {
       clearTimeout(timer);
