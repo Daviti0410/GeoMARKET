@@ -1,19 +1,36 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
-export default function Navbar({ handleCategoryClick }) {
-  const [isOpen, setIsOpen] = useState(false);
-  const [dropdown, setDropdown] = useState(null);
+export default function Navbar() {
+  const [isWomenOpen, setIsWomenOpen] = useState(false);
+  const [isMenOpen, setIsMenOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const router = useRouter();
 
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
+  const toggleWomenMenu = () => {
+    setIsWomenOpen((prev) => {
+      if (!prev && isMenOpen) {
+        setIsMenOpen(false);
+      }
+      return !prev;
+    });
+  };
+
+  const toggleMenMenu = () => {
+    setIsMenOpen((prev) => {
+      if (!prev && isWomenOpen) {
+        setIsWomenOpen(false);
+      }
+      return !prev;
+    });
   };
 
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-      setDropdown(null);
+      setIsWomenOpen(false);
+      setIsMenOpen(false);
     }
   };
 
@@ -24,11 +41,37 @@ export default function Navbar({ handleCategoryClick }) {
     };
   }, []);
 
+  const handleCategoryClick = (category, subCategory) => {
+    router.push(`/search?category=${category}&subCategory=${subCategory}`);
+  };
+
+  const categories = {
+    Clothing: [
+      "Tops",
+      "Dresses",
+      "Pants",
+      "Denim",
+      "Sweaters",
+      "T-Shirts",
+      "Jackets",
+      "Activewear",
+      "Browse All",
+    ],
+    Accessories: ["Watches", "Wallets", "Bags", "Sunglasses", "Hats", "Belts"],
+    Brands: [
+      "Full Nelson",
+      "My Way",
+      "Re-Arranged",
+      "Counterfeit",
+      "Significant Other",
+    ],
+  };
+
   return (
     <nav className="bg-black shadow-md h-20">
       <div className="container mx-auto px-6 py-3 flex justify-between items-center">
         <div className="flex items-center">
-          <div className="text-2xl font-bold text-gray-300 mt-3">
+          <div className="text-2xl ml-60 font-bold text-gray-300 mt-3">
             <Link href="/">
               <h2>GeoMarket</h2>
             </Link>
@@ -36,16 +79,21 @@ export default function Navbar({ handleCategoryClick }) {
         </div>
         <div className="hidden md:flex items-center space-x-1 mt-">
           <button
-            onClick={toggleMenu}
-            className="py-2 px-4 text-gray-700 hover:text-purple-700 focus:outline-none"
+            onClick={toggleWomenMenu}
+            className={`py-2 px-4 ${
+              isWomenOpen ? "text-purple-700" : "text-gray-700"
+            } hover:text-purple-700 focus:outline-none`}
           >
             Women
           </button>
-          <Link href="/men">
-            <span className="py-2 px-4 text-gray-400 hover:text-blue-400">
-              Men
-            </span>
-          </Link>
+          <button
+            onClick={toggleMenMenu}
+            className={`py-2 px-4 ${
+              isMenOpen ? "text-purple-700" : "text-gray-700"
+            } hover:text-purple-700 focus:outline-none`}
+          >
+            Men
+          </button>
           <Link href="/company">
             <span className="py-2 px-4 text-gray-400 hover:text-blue-400">
               Company
@@ -103,127 +151,37 @@ export default function Navbar({ handleCategoryClick }) {
         </button>
       </div>
 
-      {isOpen && (
-        <div className="relative inset-0 z-50 flex justify-center items-center bg-zinc-900 mt-3">
+      {(isWomenOpen || isMenOpen) && (
+        <div
+          ref={dropdownRef}
+          className="relative inset-0 z-50 flex justify-center items-center bg-zinc-900 mt-3"
+        >
           <div className="container mx-auto px-6 py-3">
-            <div className="grid grid-cols-3 gap-4">
-              <div>
-                <h4 className="font-semibold text-neutral-200 mb-5 text-2xl">
-                  Clothing
-                </h4>
-                <ul>
-                  <li>
-                    <span className="block py-1 text-white hover:text-purple-700 cursor-pointer">
-                      Tops
-                    </span>
-                  </li>
-                  <li>
-                    <span className="block py-1 text-white hover:text-purple-700 cursor-pointer">
-                      Dresses
-                    </span>
-                  </li>
-                  <li>
-                    <span className="block py-1 text-white hover:text-purple-700 cursor-pointer">
-                      Pants
-                    </span>
-                  </li>
-                  <li>
-                    <span className="block py-1 text-white hover:text-purple-700 cursor-pointer">
-                      Denim
-                    </span>
-                  </li>
-                  <li>
-                    <span className="block py-1 text-white hover:text-purple-700 cursor-pointer">
-                      Sweaters
-                    </span>
-                  </li>
-                  <li>
-                    <span className="block py-1 text-gray-600 hover:text-purple-700 cursor-pointer">
-                      T-Shirts
-                    </span>
-                  </li>
-                  <li>
-                    <span className="block py-1 text-gray-600 hover:text-purple-700 cursor-pointer">
-                      Jackets
-                    </span>
-                  </li>
-                  <li>
-                    <span className="block py-1 text-gray-600 hover:text-purple-700 cursor-pointer">
-                      Activewear
-                    </span>
-                  </li>
-                  <li>
-                    <span className="block py-1 text-gray-600 hover:text-purple-700 cursor-pointer">
-                      Browse All
-                    </span>
-                  </li>
-                </ul>
-              </div>
-              <div>
-                <h4 className="font-semibold text-gray-700">Accessories</h4>
-                <ul>
-                  <li>
-                    <span className="block py-1 text-gray-600 hover:text-purple-700 cursor-pointer">
-                      Watches
-                    </span>
-                  </li>
-                  <li>
-                    <span className="block py-1 text-gray-600 hover:text-purple-700 cursor-pointer">
-                      Wallets
-                    </span>
-                  </li>
-                  <li>
-                    <span className="block py-1 text-gray-600 hover:text-purple-700 cursor-pointer">
-                      Bags
-                    </span>
-                  </li>
-                  <li>
-                    <span className="block py-1 text-gray-600 hover:text-purple-700 cursor-pointer">
-                      Sunglasses
-                    </span>
-                  </li>
-                  <li>
-                    <span className="block py-1 text-gray-600 hover:text-purple-700 cursor-pointer">
-                      Hats
-                    </span>
-                  </li>
-                  <li>
-                    <span className="block py-1 text-gray-600 hover:text-purple-700 cursor-pointer">
-                      Belts
-                    </span>
-                  </li>
-                </ul>
-              </div>
-              <div>
-                <h4 className="font-semibold text-gray-700">Brands</h4>
-                <ul>
-                  <li>
-                    <span className="block py-1 text-gray-600 hover:text-purple-700 cursor-pointer">
-                      Full Nelson
-                    </span>
-                  </li>
-                  <li>
-                    <span className="block py-1 text-gray-600 hover:text-purple-700 cursor-pointer">
-                      My Way
-                    </span>
-                  </li>
-                  <li>
-                    <span className="block py-1 text-gray-600 hover:text-purple-700 cursor-pointer">
-                      Re-Arranged
-                    </span>
-                  </li>
-                  <li>
-                    <span className="block py-1 text-gray-600 hover:text-purple-700 cursor-pointer">
-                      Counterfeit
-                    </span>
-                  </li>
-                  <li>
-                    <span className="block py-1 text-gray-600 hover:text-purple-700 cursor-pointer">
-                      Significant Other
-                    </span>
-                  </li>
-                </ul>
-              </div>
+            <div className="grid grid-cols-3 gap-4 ml-60">
+              {Object.entries(categories).map(([category, items]) => (
+                <div key={category}>
+                  <h4 className="font-semibold text-neutral-200 mb-5 text-2xl">
+                    {category}
+                  </h4>
+                  <ul>
+                    {items.map((item) => (
+                      <li key={item}>
+                        <span
+                          onClick={() =>
+                            handleCategoryClick(
+                              isWomenOpen ? "Women" : "Men",
+                              item
+                            )
+                          }
+                          className="block py-1 text-white hover:text-purple-700 cursor-pointer"
+                        >
+                          {item}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -260,7 +218,11 @@ export default function Navbar({ handleCategoryClick }) {
           </li>
         </ul>
       </div>
-      <div className={`md:hidden ${isOpen ? "block" : "hidden"} mobile-menu`}>
+      <div
+        className={`md:hidden ${
+          isWomenOpen || isMenOpen ? "block" : "hidden"
+        } mobile-menu`}
+      >
         <ul className="">
           <li className="active">
             <Link href="/women">
