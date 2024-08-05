@@ -93,16 +93,16 @@ export default function Navbar() {
             <button
               onClick={toggleWomenMenu}
               className={`py-2 px-4 ${
-                isWomenOpen ? "text-purple-700" : "text-gray-700"
-              } hover:text-purple-700 focus:outline-none`}
+                isWomenOpen ? "text-blue-400" : "text-gray-700"
+              } hover:text-blue-400 focus:outline-none`}
             >
               Women
             </button>
             <button
               onClick={toggleMenMenu}
               className={`py-2 px-4 ${
-                isMenOpen ? "text-purple-700" : "text-gray-700"
-              } hover:text-purple-700 focus:outline-none`}
+                isMenOpen ? "text-blue-400" : "text-gray-700"
+              } hover:text-blue-400 focus:outline-none`}
             >
               Men
             </button>
@@ -185,7 +185,7 @@ export default function Navbar() {
                                 item
                               )
                             }
-                            className="block py-1 text-white hover:text-purple-700 cursor-pointer"
+                            className="block py-1 text-white hover:text-blue-400 cursor-pointer"
                           >
                             {item}
                           </span>
@@ -202,28 +202,28 @@ export default function Navbar() {
           <ul className="">
             <li className="active">
               <Link href="/women">
-                <span className="block text-sm px-2 py-4 text-white bg-purple-700 font-semibold">
+                <span className="block text-sm px-2 py-4 text-white bg-blue-400 font-semibold">
                   Women
                 </span>
               </Link>
             </li>
             <li>
               <Link href="/men">
-                <span className="block text-sm px-2 py-4 hover:bg-purple-700 transition duration-300">
+                <span className="block text-sm px-2 py-4 hover:bg-blue-400 transition duration-300">
                   Men
                 </span>
               </Link>
             </li>
             <li>
               <Link href="/company">
-                <span className="block text-sm px-2 py-4 hover:bg-purple-700 transition duration-300">
+                <span className="block text-sm px-2 py-4 hover:bg-blue-400 transition duration-300">
                   Company
                 </span>
               </Link>
             </li>
             <li>
               <Link href="/stores">
-                <span className="block text-sm px-2 py-4 hover:bg-purple-700 transition duration-300">
+                <span className="block text-sm px-2 py-4 hover:bg-blue-400 transition duration-300">
                   Stores
                 </span>
               </Link>
@@ -238,28 +238,28 @@ export default function Navbar() {
           <ul className="">
             <li className="active">
               <Link href="/women">
-                <span className="block text-sm px-2 py-4 text-white bg-purple-700 font-semibold">
+                <span className="block text-sm px-2 py-4 text-white bg-blue-400 font-semibold">
                   Women
                 </span>
               </Link>
             </li>
             <li>
               <Link href="/men">
-                <span className="block text-sm px-2 py-4 hover:bg-purple-700 transition duration-300">
+                <span className="block text-sm px-2 py-4 hover:text-blue-400 transition duration-300">
                   Men
                 </span>
               </Link>
             </li>
             <li>
               <Link href="/company">
-                <span className="block text-sm px-2 py-4 hover:bg-purple-700 transition duration-300">
+                <span className="block text-sm px-2 py-4 hover:text-blue-400 transition duration-300">
                   Company
                 </span>
               </Link>
             </li>
             <li>
               <Link href="/stores">
-                <span className="block text-sm px-2 py-4 hover:bg-purple-700 transition duration-300">
+                <span className="block text-sm px-2 py-4 hover:text-blue-400 transition duration-300">
                   Stores
                 </span>
               </Link>
