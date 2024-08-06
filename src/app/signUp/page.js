@@ -66,7 +66,20 @@ const SignUp = () => {
     "November",
     "December",
   ];
-  const countries = ["Georgia", "Russia", "China", "USA", "United Kingdom", "Italy", "Greece", "Turkey", "Azerbaijan", "Armenia", "Kazakhstan", "India", ];
+  const countries = [
+    "Georgia",
+    "Russia",
+    "China",
+    "USA",
+    "United Kingdom",
+    "Italy",
+    "Greece",
+    "Turkey",
+    "Azerbaijan",
+    "Armenia",
+    "Kazakhstan",
+    "India",
+  ];
 
   return (
     <div className="max-w-xl mx-auto mt-10 bg-gray-100 p-8 rounded-lg shadow-md">
@@ -320,9 +333,10 @@ const SignUp = () => {
           <button
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             type="submit"
-            onClick={() => router.push("/")}
+
+            onClick={() => router.push("/signIn")}
           >
-            Back
+            Sign In
           </button>
         </div>
       </form>
