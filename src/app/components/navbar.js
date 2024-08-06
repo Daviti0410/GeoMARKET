@@ -1,56 +1,29 @@
-"use client";
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 export default function Navbar() {
-  const [isWomenOpen, setIsWomenOpen] = useState(false);
-  const [isMenOpen, setIsMenOpen] = useState(false);
+  const [menuState, setMenuState] = useState({
+    isWomenOpen: false,
+    isMenOpen: false,
+  });
   const [clickCount, setClickCount] = useState(0);
   const dropdownRef = useRef(null);
   const router = useRouter();
 
-  const toggleWomenMenu = () => {
-    setIsWomenOpen((prev) => {
-      const newState = !prev;
-      const prevCount = 1;
+  const toggleMenu = (menuType, event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    setMenuState((prevState) => {
+      const newState = {
+        ...prevState,
+        isWomenOpen: menuType === "Women" ? !prevState.isWomenOpen : false,
+        isMenOpen: menuType === "Men" ? !prevState.isMenOpen : false,
+      };
       setClickCount((prevCount) => prevCount + 1);
-      if (newState) {
-        setIsMenOpen(false);
-      }
       return newState;
     });
   };
-
-  const toggleMenMenu = () => {
-    setIsMenOpen((prev) => {
-      const newState = !prev;
-      const prevCount = 1;
-      setClickCount((prevCount) => prevCount + 1);
-      if (newState) {
-        setIsWomenOpen(false);
-      }
-      return newState;
-    });
-  };
-
-  const handleClickOutside = (event) => {
-    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-      setIsWomenOpen(false);
-      setIsMenOpen(false);
-    }
-  };
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      document.addEventListener("mousedown", handleClickOutside);
-    }, 1500);
-
-    return () => {
-      clearTimeout(timer);
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [clickCount]);
 
   const handleCategoryClick = (category, subCategory) => {
     router.push(`/search?category=${category}&subCategory=${subCategory}`);
@@ -89,20 +62,16 @@ export default function Navbar() {
               </Link>
             </div>
           </div>
-          <div className="hidden md:flex items-center space-x-1 mt-">
+          <div className="hidden md:flex items-center space-x-1">
             <button
-              onClick={toggleWomenMenu}
-              className={`py-2 px-4 ${
-                isWomenOpen ? "text-blue-400" : "text-gray-700"
-              } hover:text-blue-400 focus:outline-none`}
+              className="py-2 px-4 text-gray-400 hover:text-blue-400 focus:outline-none"
+              onClick={(e) => toggleMenu("Women", e)}
             >
               Women
             </button>
             <button
-              onClick={toggleMenMenu}
-              className={`py-2 px-4 ${
-                isMenOpen ? "text-blue-400" : "text-gray-700"
-              } hover:text-blue-400 focus:outline-none`}
+              className="py-2 px-4 text-gray-400 hover:text-blue-400 focus:outline-none"
+              onClick={(e) => toggleMenu("Men", e)}
             >
               Men
             </button>
@@ -147,26 +116,12 @@ export default function Navbar() {
             </div>
           </div>
         </div>
-        <div className="md:hidden flex items-center">
-          <button className="outline-none mobile-menu-button">
-            <svg
-              className=" w-6 h-6 text-gray-400 hover:text-blue-400"
-              fill="none"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path d="M4 6h16M4 12h16m-7 6h7"></path>
-            </svg>
-          </button>
-        </div>
-
-        {(isWomenOpen || isMenOpen) && (
+        {(menuState.isWomenOpen || menuState.isMenOpen) && (
           <div
             ref={dropdownRef}
-            className="relative inset-0 z-50 flex justify-center items-center bg-zinc-900 mt-3"
+            className={`relative inset-0 z-50 flex justify-center items-center bg-zinc-900 mt-3 some-class ${
+              menuState.isWomenOpen || menuState.isMenOpen ? "show" : "hide"
+            }`}
           >
             <div className="container mx-auto px-6 py-3">
               <div className="grid grid-cols-3 gap-4 ml-60">
@@ -181,7 +136,7 @@ export default function Navbar() {
                           <span
                             onClick={() =>
                               handleCategoryClick(
-                                isWomenOpen ? "Women" : "Men",
+                                menuState.isWomenOpen ? "Women" : "Men",
                                 item
                               )
                             }
@@ -198,74 +153,6 @@ export default function Navbar() {
             </div>
           </div>
         )}
-        <div className="hidden mobile-menu">
-          <ul className="">
-            <li className="active">
-              <Link href="/women">
-                <span className="block text-sm px-2 py-4 text-white bg-blue-400 font-semibold">
-                  Women
-                </span>
-              </Link>
-            </li>
-            <li>
-              <Link href="/men">
-                <span className="block text-sm px-2 py-4 hover:bg-blue-400 transition duration-300">
-                  Men
-                </span>
-              </Link>
-            </li>
-            <li>
-              <Link href="/company">
-                <span className="block text-sm px-2 py-4 hover:bg-blue-400 transition duration-300">
-                  Company
-                </span>
-              </Link>
-            </li>
-            <li>
-              <Link href="/stores">
-                <span className="block text-sm px-2 py-4 hover:bg-blue-400 transition duration-300">
-                  Stores
-                </span>
-              </Link>
-            </li>
-          </ul>
-        </div>
-        <div
-          className={`md:hidden ${
-            isWomenOpen || isMenOpen ? "block" : "hidden"
-          } mobile-menu`}
-        >
-          <ul className="">
-            <li className="active">
-              <Link href="/women">
-                <span className="block text-sm px-2 py-4 text-white bg-blue-400 font-semibold">
-                  Women
-                </span>
-              </Link>
-            </li>
-            <li>
-              <Link href="/men">
-                <span className="block text-sm px-2 py-4 hover:text-blue-400 transition duration-300">
-                  Men
-                </span>
-              </Link>
-            </li>
-            <li>
-              <Link href="/company">
-                <span className="block text-sm px-2 py-4 hover:text-blue-400 transition duration-300">
-                  Company
-                </span>
-              </Link>
-            </li>
-            <li>
-              <Link href="/stores">
-                <span className="block text-sm px-2 py-4 hover:text-blue-400 transition duration-300">
-                  Stores
-                </span>
-              </Link>
-            </li>
-          </ul>
-        </div>
       </nav>
     </div>
   );
