@@ -65,17 +65,15 @@ export default function Navbar() {
           </div>
           <div className="hidden md:flex items-center space-x-1">
             <button
+
               className={`py-2 px-4 ${
                 menuState.isWomenOpen ? "text-blue-400" : "text-gray-400"
               } hover:text-blue-400 focus:outline-none`}
-              onClick={(e) => toggleMenu("Women", e)}
-            >
-              Women
-            </button>
-            <button
+
               className={`py-2 px-4 ${
                 menuState.isMenOpen ? "text-blue-400" : "text-gray-400"
               } hover:text-blue-400 focus:outline-none`}
+
               onClick={(e) => toggleMenu("Men", e)}
             >
               Men
@@ -128,7 +126,9 @@ export default function Navbar() {
         {(menuState.isWomenOpen || menuState.isMenOpen) && (
           <div
             ref={dropdownRef}
+
             className={`relative inset-0 z-50 flex justify-center items-center bg-zinc-900 -mt-2 some-class ${
+                       
               menuState.isWomenOpen || menuState.isMenOpen ? "show" : "hide"
             }`}
           >
