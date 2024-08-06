@@ -1,6 +1,6 @@
 # GeoMARKET
 
-## This is an application where clinets can find and purchase their desire clothes. If anyone wants to sell their product they must first sign up and verify their emails.
+## This is an application where clinets can find, purchase or sell their desired clothes (products). If anyone wants to sell their products or buy one, first they must sign up and verify their emails.
 
                                                          USED TOOLS
 
