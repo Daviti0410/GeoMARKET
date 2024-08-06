@@ -16,11 +16,6 @@ export async function GET(req) {
       values.push(category);
     }
 
-    if (subCategory) {
-      sql += `AND type = ?`;
-      values.push(subCategory);
-    }
-
     const [results] = await pool.query(sql, values);
 
     const products = results.map((result) => ({

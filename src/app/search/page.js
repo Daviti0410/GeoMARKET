@@ -23,9 +23,7 @@ export default function Search() {
         const res = await fetch(
           `/api/getProduct?query=${encodeURIComponent(
             query
-          )}&category=${encodeURIComponent(
-            category
-          )}&subCategory=${subCategory}`
+          )}&category=${encodeURIComponent(category)}`
         );
 
         if (!res.ok) {
@@ -40,7 +38,7 @@ export default function Search() {
       }
     };
 
-    if (query || category || subCategory) {
+    if (query || category) {
       fetchResults();
     }
   }, [query, category, subCategory]);

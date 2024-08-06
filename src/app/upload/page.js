@@ -193,9 +193,8 @@ export default function Upload() {
                 required
               >
                 <option value="">Select Category</option>
-                <option value="clothing">Clothing</option>
-                <option value="accessories">Accessories</option>
-                <option value="footwear">Footwear</option>
+                <option value="clothing">Men</option>
+                <option value="accessories">Women</option>
               </select>
               <select
                 className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
