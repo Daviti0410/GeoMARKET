@@ -56,7 +56,6 @@ export default function Navbar() {
         "Sweaters",
         "T-Shirts",
         "Jackets",
-        "Activewear",
       ],
       Accessories: ["Watches", "Wallets", "Bags", "Sunglasses", "Hats", "Belts", "jewellery"],
       Brands: [
@@ -69,14 +68,12 @@ export default function Navbar() {
     },
     Men: {
       Clothing: [
-        "Shirts",
+        "T-Shirts",
         "Pants",
         "Shorts",
         "Denim",
         "Sweaters",
-        "T-Shirts",
         "Jackets",
-        "Activewear",
       ],
       Accessories: ["Watches", "Wallets", "Bags", "Sunglasses", "Hats", "Belts"],
       Brands: [
