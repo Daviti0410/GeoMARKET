@@ -1,34 +1,27 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { GoSearch } from "react-icons/go";
+import Profile from "./profile";
 
 export default function Navbar() {
-  const [isWomenOpen, setIsWomenOpen] = useState(false);
-  const [isMenOpen, setIsMenOpen] = useState(false);
-  const [clickCount, setClickCount] = useState(0);
-  const dropdownRef = useRef(null);
+  const [menuState, setMenuState] = useState({
+    isWomenOpen: false,
+    isMenOpen: false,
+  });
+
+  const dropdownRef = useRef();
   const router = useRouter();
 
-  const toggleWomenMenu = () => {
-    setIsWomenOpen((prev) => {
-      const newState = !prev;
-      const prevCount = 1;
-      setClickCount((prevCount) => prevCount + 1);
-      if (newState) {
-        setIsMenOpen(false);
-      }
-      return newState;
-    });
-  };
-
-  const toggleMenMenu = () => {
-    setIsMenOpen((prev) => {
-      const newState = !prev;
-      const prevCount = 1;
-      setClickCount((prevCount) => prevCount + 1);
-      if (newState) {
-        setIsWomenOpen(false);
-      }
+  const toggleMenu = (menuType, event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    setMenuState((prevState) => {
+      const newState = {
+        ...prevState,
+        isWomenOpen: menuType === "Women" ? !prevState.isWomenOpen : false,
+        isMenOpen: menuType === "Men" ? !prevState.isMenOpen : false,
+      };
       return newState;
     });
   };
@@ -88,18 +81,20 @@ export default function Navbar() {
           </div>
           <div className="hidden md:flex items-center space-x-1">
             <button
-              onClick={toggleWomenMenu}
+              ref={dropdownRef}
               className={`py-2 px-4 ${
                 menuState.isWomenOpen ? "text-blue-400" : "text-gray-400"
               } hover:text-blue-400 focus:outline-none`}
+              onClick={(e) => toggleMenu("Women", e)}
             >
               Women
             </button>
             <button
-              onClick={toggleMenMenu}
+              ref={dropdownRef}
               className={`py-2 px-4 ${
                 menuState.isMenOpen ? "text-blue-400" : "text-gray-400"
               } hover:text-blue-400 focus:outline-none`}
+              onClick={(e) => toggleMenu("Men", e)}
             >
               Men
             </button>
@@ -130,29 +125,15 @@ export default function Navbar() {
                 Create account
               </span>
             </Link>
-            <span className="py-2 px-4 text-gray-400 cursor-pointer">CAD</span>
-            <div className="relative cursor-pointer">
-              <svg
-                className="w-6 h-6 text-gray-400 hover:text-blue-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5H3m4 8v6a2 2 0 002 2h8a2 2 0 002-2v-6M7 13h10"
-                ></path>
-              </svg>
-            </div>
+            <div className="relative cursor-pointer">{/* <Profile /> */}</div>
           </div>
         </div>
         {(menuState.isWomenOpen || menuState.isMenOpen) && (
           <div
             ref={dropdownRef}
-            className="relative inset-0 z-50 flex justify-center items-center bg-zinc-900 mt-3"
+            className={`relative inset-0 z-50 flex justify-center items-center bg-zinc-900 -mt-2 some-class ${
+              menuState.isWomenOpen || menuState.isMenOpen ? "show" : "hide"
+            }`}
           >
             <div className="container mx-auto px-6 py-3">
               <div className="grid grid-cols-3 gap-4 ml-60">
