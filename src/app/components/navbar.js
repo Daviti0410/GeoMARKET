@@ -47,25 +47,46 @@ export default function Navbar() {
   }, []);
 
   const categories = {
-    Clothing: [
-      "Tops",
-      "Dresses",
-      "Pants",
-      "Denim",
-      "Sweaters",
-      "T-Shirts",
-      "Jackets",
-      "Activewear",
-      "Browse All",
-    ],
-    Accessories: ["Watches", "Wallets", "Bags", "Sunglasses", "Hats", "Belts"],
-    Brands: [
-      "Full Nelson",
-      "My Way",
-      "Re-Arranged",
-      "Counterfeit",
-      "Significant Other",
-    ],
+    Women: {
+      Clothing: [
+        "Tops",
+        "Dresses",
+        "Pants",
+        "Denim",
+        "Sweaters",
+        "T-Shirts",
+        "Jackets",
+        "Activewear",
+      ],
+      Accessories: ["Watches", "Wallets", "Bags", "Sunglasses", "Hats", "Belts", "jewellery"],
+      Brands: [
+        "Full Nelson",
+        "My Way",
+        "Re-Arranged",
+        "Counterfeit",
+        "Significant Other",
+      ],
+    },
+    Men: {
+      Clothing: [
+        "Shirts",
+        "Pants",
+        "Shorts",
+        "Denim",
+        "Sweaters",
+        "T-Shirts",
+        "Jackets",
+        "Activewear",
+      ],
+      Accessories: ["Watches", "Wallets", "Bags", "Sunglasses", "Hats", "Belts"],
+      Brands: [
+        "Full Nelson",
+        "My Way",
+        "Re-Arranged",
+        "Counterfeit",
+        "Significant Other",
+      ],
+    },
   };
 
   return (
@@ -137,7 +158,9 @@ export default function Navbar() {
           >
             <div className="container mx-auto px-6 py-3">
               <div className="grid grid-cols-3 gap-4 ml-60">
-                {Object.entries(categories).map(([category, items]) => (
+                {Object.entries(
+                  menuState.isWomenOpen ? categories.Women : categories.Men
+                ).map(([category, items]) => (
                   <div key={category}>
                     <h4 className="font-semibold text-neutral-200 mb-5 text-2xl">
                       {category}
