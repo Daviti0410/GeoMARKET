@@ -73,7 +73,7 @@ export default function Navbar() {
       <nav className="bg-black shadow-md h-20">
         <div className="container mx-auto px-6 py-3 flex justify-between items-center">
           <div className="flex items-center">
-            <div className="text-2xl ml-60 font-bold text-gray-300 ">
+            <div className="text-2xl ml-44 font-bold text-gray-300 ">
               <Link href="/">
                 <h2>GeoMarket</h2>
               </Link>
