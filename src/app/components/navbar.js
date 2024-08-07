@@ -2,14 +2,15 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { GoSearch } from "react-icons/go";
+import Profile from "./profile";
 
 export default function Navbar() {
   const [menuState, setMenuState] = useState({
     isWomenOpen: false,
     isMenOpen: false,
   });
-  const [clickCount, setClickCount] = useState(0);
-  const dropdownRef = useRef(null);
+
+  const dropdownRef = useRef();
   const router = useRouter();
 
   const toggleMenu = (menuType, event) => {
@@ -21,7 +22,6 @@ export default function Navbar() {
         isWomenOpen: menuType === "Women" ? !prevState.isWomenOpen : false,
         isMenOpen: menuType === "Men" ? !prevState.isMenOpen : false,
       };
-      setClickCount((prevCount) => prevCount + 1);
       return newState;
     });
   };
@@ -29,6 +29,22 @@ export default function Navbar() {
   const handleCategoryClick = (category, subCategory) => {
     router.push(`/search?category=${category}&subCategory=${subCategory}`);
   };
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setMenuState({
+          isWomenOpen: false,
+          isMenOpen: false,
+        });
+      }
+    };
+
+    window.addEventListener("click", handleClickOutside);
+    return () => {
+      window.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
 
   const categories = {
     Clothing: [
@@ -65,6 +81,7 @@ export default function Navbar() {
           </div>
           <div className="hidden md:flex items-center space-x-1">
             <button
+              ref={dropdownRef}
               className={`py-2 px-4 ${
                 menuState.isWomenOpen ? "text-blue-400" : "text-gray-400"
               } hover:text-blue-400 focus:outline-none`}
@@ -73,6 +90,7 @@ export default function Navbar() {
               Women
             </button>
             <button
+              ref={dropdownRef}
               className={`py-2 px-4 ${
                 menuState.isMenOpen ? "text-blue-400" : "text-gray-400"
               } hover:text-blue-400 focus:outline-none`}
@@ -107,22 +125,7 @@ export default function Navbar() {
                 Create account
               </span>
             </Link>
-            <div className="relative cursor-pointer">
-              <svg
-                className="w-6 h-6 text-gray-400 hover:text-blue-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5H3m4 8v6a2 2 0 002 2h8a2 2 0 002-2v-6M7 13h10"
-                ></path>
-              </svg>
-            </div>
+            <div className="relative cursor-pointer">{/* <Profile /> */}</div>
           </div>
         </div>
         {(menuState.isWomenOpen || menuState.isMenOpen) && (
