@@ -145,8 +145,15 @@ export default function Upload() {
                 required
               >
                 <option value="">Select Type</option>
-                <option value="formal">Formal</option>
-                <option value="casual">Casual</option>
+                <option value="T-Shirts">T-Shirts</option>
+                <option value="Pants">Pants</option>
+                <option value="Shorts">Shorts</option>
+                <option value="Denim">Denim</option>
+                <option value="Sweaters">Sweaters</option>
+                <option value="Jackets">Jackets</option>
+                <option value="Tops">Tops</option>
+                <option value="Dresses">Dresses</option>
+                
               </select>
               <input
                 type="text"
@@ -202,9 +209,14 @@ export default function Upload() {
                 onChange={(e) => setCondition(e.target.value)}
                 required
               >
-                <option value="">Select Condition</option>
-                <option value="new">New</option>
-                <option value="used">Used</option>
+                <option value="">Accessories</option>
+                <option value="Watches">Watches</option>
+                <option value="Wallets">Wallets</option>
+                <option value="Bags">Bags</option>
+                <option value="Sunglasses">Sunglasses</option>
+                <option value="Hats">Hats</option>
+                <option value="Belts">Belts</option>
+                <option value="jewellery">jewellery</option>
               </select>
               <input
                 type="number"
