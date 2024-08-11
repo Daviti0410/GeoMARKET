@@ -9,9 +9,30 @@ export default function Navbar() {
     isWomenOpen: false,
     isMenOpen: false,
   });
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const dropdownRef = useRef();
   const router = useRouter();
+
+  useEffect(() => {
+    async function fetchProtectedData() {
+      const response = await fetch(`api/protectToken`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        router.push("/signIn");
+        return;
+      }
+      setIsAuthenticated(true);
+    }
+
+    fetchProtectedData();
+  }, []);
 
   const toggleMenu = (menuType, event) => {
     event.preventDefault();
@@ -57,7 +78,15 @@ export default function Navbar() {
         "T-Shirts",
         "Jackets",
       ],
-      Accessories: ["Watches", "Wallets", "Bags", "Sunglasses", "Hats", "Belts", "jewellery"],
+      Accessories: [
+        "Watches",
+        "Wallets",
+        "Bags",
+        "Sunglasses",
+        "Hats",
+        "Belts",
+        "jewellery",
+      ],
       Brands: [
         "Full Nelson",
         "My Way",
@@ -67,15 +96,15 @@ export default function Navbar() {
       ],
     },
     Men: {
-      Clothing: [
-        "T-Shirts",
-        "Pants",
-        "Shorts",
-        "Denim",
-        "Sweaters",
-        "Jackets",
+      Clothing: ["T-Shirts", "Pants", "Shorts", "Denim", "Sweaters", "Jackets"],
+      Accessories: [
+        "Watches",
+        "Wallets",
+        "Bags",
+        "Sunglasses",
+        "Hats",
+        "Belts",
       ],
-      Accessories: ["Watches", "Wallets", "Bags", "Sunglasses", "Hats", "Belts"],
       Brands: [
         "Full Nelson",
         "My Way",
@@ -133,17 +162,24 @@ export default function Navbar() {
                 <GoSearch />
               </span>
             </Link>
-            <Link href="/signIn">
-              <span className="py-2 px-4 text-gray-400 hover:text-blue-400">
-                Sign in
-              </span>
-            </Link>
-            <Link href="/signUp">
-              <span className="py-2 px-4 text-gray-400 hover:text-blue-400">
-                Create account
-              </span>
-            </Link>
-            <div className="relative cursor-pointer">{/* <Profile /> */}</div>
+            {isAuthenticated ? (
+              <div className="relative cursor-pointer">
+                <Profile />
+              </div>
+            ) : (
+              <>
+                <Link href="/signIn">
+                  <span className="py-2 px-4 text-gray-400 hover:text-blue-400">
+                    Sign in
+                  </span>
+                </Link>
+                <Link href="/signUp">
+                  <span className="py-2 px-4 text-gray-400 hover:text-blue-400">
+                    Create account
+                  </span>
+                </Link>
+              </>
+            )}
           </div>
         </div>
         {(menuState.isWomenOpen || menuState.isMenOpen) && (

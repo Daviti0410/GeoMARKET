@@ -35,7 +35,7 @@ const Profile = () => {
           onClick={() => setOpen((prev) => !prev)}
           src=""
           alt="user"
-          className="h-20 w-20 object-cover border-4 border-gray-400 rounded-full cursor-pointer"
+          className="h-10 w-10 object-cover border-4 border-gray-400 rounded-full cursor-pointer"
         />
         {open && (
           <div className="bg-black p-4 w-52 shadow-lg absolute -left-14 top-24">
