@@ -25,7 +25,6 @@ export default function Navbar() {
       });
 
       if (!response.ok) {
-        router.push("/");
         return;
       }
       setIsAuthenticated(true);
