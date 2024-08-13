@@ -25,7 +25,6 @@ export default function Navbar() {
       });
 
       if (!response.ok) {
-       if (!response.ok) {
         router.push("/");
         return;
       }
