@@ -39,13 +39,14 @@ const SignUp = () => {
 
         const data = await res.json();
         if (data.success) {
-          setMessage("Upload successful!");
-          router.push("/signIn");
+          setMessage(
+            "Registration successful! Please check your email to verify your account."
+          );
         } else {
-          setMessage("Upload failed: " + data.message);
+          setMessage("Registration failed: " + data.message);
         }
       } catch (error) {
-        setMessage("Upload failed: " + error.message);
+        setMessage("Registration failed: " + error.message);
       }
     },
   });

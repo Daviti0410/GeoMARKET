@@ -1,6 +1,8 @@
 import pool from "@/app/lib/connection";
 import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
+import { v4 as uuidv4 } from "uuid";
+import nodemailer from "nodemailer";
 
 const SALT_ROUNDS = 10;
 
@@ -23,7 +25,21 @@ export async function POST(req) {
       country,
     } = data;
 
-    if (!day || !month || !year || !firstName || !lastName || !password || !phoneNumber || !email || !street || !city || !region || !postal || !country) {
+    if (
+      !day ||
+      !month ||
+      !year ||
+      !firstName ||
+      !lastName ||
+      !password ||
+      !phoneNumber ||
+      !email ||
+      !street ||
+      !city ||
+      !region ||
+      !postal ||
+      !country
+    ) {
       return NextResponse.json(
         { success: false, message: "Missing required fields" },
         { status: 400 }
@@ -42,12 +58,15 @@ export async function POST(req) {
 
     const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
 
-    const query = `
-    INSERT INTO users (firstName, lastName, email, city, region, street, month, day, year, postal, phoneNumber, password, country)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    `;
+    const userId = uuidv4();
+    const verificationToken = uuidv4();
 
+    const query = `
+      INSERT INTO users (id, firstName, lastName, email, city, region, street, month, day, year, postal, phoneNumber, password, country, verificationToken, isVerified)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0)
+    `;
     const values = [
+      userId,
       firstName,
       lastName,
       email,
@@ -61,11 +80,35 @@ export async function POST(req) {
       phoneNumber,
       hashedPassword,
       country,
+      verificationToken,
     ];
     const [result] = await pool.query(query, values);
 
+    const verificationLink = `${process.env.NEXT_PUBLIC_BASE_URL}/api/verifyEmail?token=${verificationToken}`;
+
+    const transporter = nodemailer.createTransport({
+      service: "Gmail",
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASSWORD,
+      },
+    });
+
+    await transporter.sendMail({
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: "Verify your email address",
+      html: `<p>Please verify your email by clicking the link below:</p>
+             <a href="${verificationLink}">Verify Email</a>`,
+    });
+
     return NextResponse.json(
-      { success: true, id: result.insertId },
+      {
+        success: true,
+        id: userId,
+        message:
+          "Registration successful, Please check your email to verify your account.",
+      },
       { status: 200 }
     );
   } catch (error) {
