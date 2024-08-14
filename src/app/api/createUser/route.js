@@ -63,7 +63,10 @@ export async function POST(req) {
 
     const query = `
       INSERT INTO users (id, firstName, lastName, email, city, region, street, month, day, year, postal, phoneNumber, password, country, verificationToken, isVerified)
+
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0)
+
+
     `;
     const values = [
       userId,
