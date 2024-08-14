@@ -38,6 +38,10 @@ export async function POST(req) {
         { status: 401 }
       );
     }
+
+    if (user.isVerified != 1) {
+      return NextResponse.json({ error: "verify account first", status: 409 });
+    }
     const payload = {
       userId: user.id,
       email: user.email,
