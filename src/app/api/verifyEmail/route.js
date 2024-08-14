@@ -20,7 +20,7 @@ export async function GET(req) {
       "UPDATE users SET isVerified = 1, verificationToken = NULL WHERE id = ?";
     await pool.query(updateQuery, [user[0].id]);
 
- Daviti
+ 
     const redirectUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/signIn`;
 
     return NextResponse.redirect(redirectUrl);
